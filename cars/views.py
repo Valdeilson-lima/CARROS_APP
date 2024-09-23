@@ -3,10 +3,10 @@ from cars.models import car
 #from django.http import HttpResponse
 
 def cars_view(request):
-    
-    
-    print(request.GET)
-    cars = car.objects.filter(model__contains='C')
+    cars = car.objects.all().order_by('model')
+    search = request.GET.get('search')
+    if search:
+        cars = cars.filter(model__icontains=search).order_by('model')
    
     return  render(
         request,
